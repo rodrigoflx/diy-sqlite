@@ -18,6 +18,7 @@ include(cmake/variables.cmake)
 add_library(
     diy-sqlite_lib OBJECT
     source/lib.cpp
+    source/input_buffer.cpp
 )
 
 target_include_directories(
@@ -40,7 +41,8 @@ set_property(TARGET diy-sqlite_exe PROPERTY OUTPUT_NAME diy-sqlite)
 
 target_compile_features(diy-sqlite_exe PRIVATE cxx_std_17)
 
-target_link_libraries(diy-sqlite_exe PRIVATE diy-sqlite_lib)
+# TODO Remove fmt::fmt once user input is handled by a library 
+target_link_libraries(diy-sqlite_exe PRIVATE diy-sqlite_lib fmt::fmt)
 
 # ---- Install rules ----
 
