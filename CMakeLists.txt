@@ -19,6 +19,7 @@ add_library(
     diy-sqlite_lib OBJECT
     source/lib.cpp
     source/input_buffer.cpp
+    source/frontend/tokenizer/tokenizer.cpp
 )
 
 target_include_directories(

@@ -13,7 +13,9 @@ include(Catch)
 
 add_executable(diy-sqlite_test 
     source/diy-sqlite_test.cpp
-    source/TestInputBuffer.cpp)
+    source/TestInputBuffer.cpp
+    source/TestTokenizer.cpp)
+
 target_link_libraries(
     diy-sqlite_test PRIVATE
     diy-sqlite_lib
