@@ -3,16 +3,16 @@
 #include <stdexcept>
 #include "token.hpp"
 
-class Tokenizer {
+class tokenizer {
 public:
-    explicit Tokenizer(const std::string& input) : input_(input), pos_(0) {}
-    std::vector<Token> tokenize();
+    explicit tokenizer(const std::string& input) : m_input(input), m_pos(0) {}
+    std::vector<token> tokenize();
 
 private:
-    std::string input_;
-    size_t pos_;
-    Token tokenizeIdentifierOrKeyword();
-    Token tokenizeNumber();
-    Token tokenizeStringLiteral();
-    Token tokenizeOperator();
+    std::string m_input;
+    size_t m_pos;
+    token tokenize_identifier_or_keyword();
+    token tokenize_number();
+    token tokenize_string_literal();
+    token tokenize_operator();
 };

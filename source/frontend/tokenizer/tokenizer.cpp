@@ -1,60 +1,60 @@
 #include "tokenizer.hpp"
 #include "utils.hpp"
 
-std::vector<Token> Tokenizer::tokenize() {
-    std::vector<Token> tokens;
+std::vector<token> tokenizer::tokenize() {
+    std::vector<token> tokens;
 
-    while (pos_ < input_.size()) {
-        if (std::isspace(input_[pos_])) {
-            pos_++;
-        } else if (std::isalpha(input_[pos_])) {
-            tokens.push_back(tokenizeIdentifierOrKeyword());
-        } else if (std::isdigit(input_[pos_])) {
-            tokens.push_back(tokenizeNumber());
-        } else if (input_[pos_] == '\'') {
-            tokens.push_back(tokenizeStringLiteral());
-        } else if (isOperator(input_[pos_])) {
-            tokens.push_back(tokenizeOperator());
-        } else if (isPunctuation(input_[pos_])) {
-            tokens.push_back(Token(TokenType::Punctuation, std::string(1, input_[pos_++])));
+    while (m_pos < m_input.size()) {
+        if (std::isspace(m_input[m_pos])) {
+            m_pos++;
+        } else if (std::isalpha(m_input[m_pos])) {
+            tokens.push_back(tokenize_identifier_or_keyword());
+        } else if (std::isdigit(m_input[m_pos])) {
+            tokens.push_back(tokenize_number());
+        } else if (m_input[m_pos] == '\'') {
+            tokens.push_back(tokenize_string_literal());
+        } else if (isoperator(m_input[m_pos])) {
+            tokens.push_back(tokenize_operator());
+        } else if (ispunctuation(m_input[m_pos])) {
+            tokens.push_back(token(token_type::punctuation, std::string(1, m_input[m_pos++])));
         } else {
-            throw std::runtime_error("Unexpected character: " + std::string(1, input_[pos_]));
+            throw std::runtime_error("Unexpected character: " + std::string(1, m_input[m_pos]));
         }
     }
 
-    tokens.push_back(Token(TokenType::Eof, ""));
+    tokens.push_back(token(token_type::eof, ""));
     return tokens;
 };
 
-Token Tokenizer::tokenizeIdentifierOrKeyword() {
-        size_t start = pos_;
-        while (pos_ < input_.size() && (std::isalnum(input_[pos_]) || input_[pos_] == '_')) pos_++;
-        std::string word = input_.substr(start, pos_ - start);
-        TokenType type = isKeyword(word) ? TokenType::Keyword : TokenType::Identifier;
-        return Token(type, word);
+token tokenizer::tokenize_identifier_or_keyword() {
+        size_t start = m_pos;
+        while (m_pos < m_input.size() && (std::isalnum(m_input[m_pos]) || m_input[m_pos] == '_')) m_pos++;
+        std::string word = m_input.substr(start, m_pos - start);
+        token_type type = iskeyword(word) ? token_type::keyword : token_type::identifier;
+        return token(type, word);
 };
 
-Token Tokenizer::tokenizeNumber() {
-        size_t start = pos_;
-        while (pos_ < input_.size() && (std::isdigit(input_[pos_]) || input_[pos_] == '.')) pos_++;
-        return Token(TokenType::Literal, input_.substr(start, pos_ - start));
+token tokenizer::tokenize_number() {
+        size_t start = m_pos;
+        while (m_pos < m_input.size() && (std::isdigit(m_input[m_pos]) || m_input[m_pos] == '.')) m_pos++;
+        return token(token_type::literal, m_input.substr(start, m_pos - start));
     }
 
-Token Tokenizer::tokenizeStringLiteral() {
-    pos_++;  // Skip opening quote
-    size_t start = pos_;
-    while (pos_ < input_.size() && input_[pos_] != '\'') pos_++;
-    if (pos_ >= input_.size()) throw std::runtime_error("Unterminated string literal");
-    std::string str_literal = input_.substr(start, pos_ - start);
-    pos_++;  // Skip closing quote
-    return Token(TokenType::Literal, str_literal);
+token tokenizer::tokenize_string_literal() {
+    m_pos++;  // Skip opening quote
+    size_t start = m_pos;
+    while (m_pos < m_input.size() && m_input[m_pos] != '\'') m_pos++;
+    if (m_pos >= m_input.size()) throw std::runtime_error("Unterminated string literal");
+    std::string str_literal = m_input.substr(start, m_pos - start);
+    m_pos++;  // Skip closing quote
+    return token(token_type::literal, str_literal);
 }
 
-Token Tokenizer::tokenizeOperator() {
-    std::string op(1, input_[pos_]);
-    pos_++;
-    if ((op == "=" || op == "<" || op == ">" || op == "!") && pos_ < input_.size() && input_[pos_] == '=') {
-        op += input_[pos_++];
+token tokenizer::tokenize_operator() {
+    std::string op(1, m_input[m_pos]);
+    m_pos++;
+    if ((op == "=" || op == "<" || op == ">" || op == "!") && m_pos < m_input.size() && m_input[m_pos] == '=') {
+        op += m_input[m_pos++];
     }
-    return Token(TokenType::Operator, op);
+    return token(token_type::operator_, op);
 }

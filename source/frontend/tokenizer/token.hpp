@@ -1,17 +1,18 @@
+#pragma once
 #include <string>
 
-enum class TokenType {
-    Keyword,
-    Identifier,
-    Literal,
-    Operator,
-    Punctuation,
-    Eof
+enum class token_type {
+    keyword,
+    identifier,
+    literal,
+    operator_,      // Use `operator_` to avoid conflicts with the `operator` keyword
+    punctuation,
+    eof
 };
 
-struct Token {
-    TokenType type;
+struct token {
+    token_type type;
     std::string value;
 
-    Token(TokenType t, const std::string& val) : type(t), value(val) {}
+    token(token_type token_type, std::string val) : type(token_type), value(std::move(val)) {}
 };

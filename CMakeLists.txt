@@ -20,6 +20,7 @@ add_library(
     source/lib.cpp
     source/input_buffer.cpp
     source/frontend/tokenizer/tokenizer.cpp
+    source/frontend/parser/parser.cpp
 )
 
 target_include_directories(
