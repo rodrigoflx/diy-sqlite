@@ -21,6 +21,8 @@ add_library(
     source/input_buffer.cpp
     source/frontend/tokenizer/tokenizer.cpp
     source/frontend/parser/parser.cpp
+    source/backend/pager.cpp
+    source/backend/pager.hpp
 )
 
 target_include_directories(
@@ -29,7 +31,7 @@ target_include_directories(
     "\$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>"
 )
 
-target_compile_features(diy-sqlite_lib PUBLIC cxx_std_17)
+target_compile_features(diy-sqlite_lib PUBLIC cxx_std_20)
 
 find_package(fmt REQUIRED)
 target_link_libraries(diy-sqlite_lib PRIVATE fmt::fmt)
@@ -41,7 +43,7 @@ add_executable(diy-sqlite::exe ALIAS diy-sqlite_exe)
 
 set_property(TARGET diy-sqlite_exe PROPERTY OUTPUT_NAME diy-sqlite)
 
-target_compile_features(diy-sqlite_exe PRIVATE cxx_std_17)
+target_compile_features(diy-sqlite_exe PRIVATE cxx_std_20)
 
 # TODO Remove fmt::fmt once user input is handled by a library 
 target_link_libraries(diy-sqlite_exe PRIVATE diy-sqlite_lib fmt::fmt)
