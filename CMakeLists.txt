@@ -19,8 +19,8 @@ add_library(
     diy-sqlite_lib OBJECT
     source/lib.cpp
     source/input_buffer.cpp
-    source/frontend/tokenizer/tokenizer.cpp
-    source/frontend/parser/parser.cpp
+    source/frontend/tokenizer.cpp
+    source/frontend/parser.cpp
     source/backend/pager.cpp
     source/backend/pager.hpp
 )
@@ -34,7 +34,8 @@ target_include_directories(
 target_compile_features(diy-sqlite_lib PUBLIC cxx_std_20)
 
 find_package(fmt REQUIRED)
-target_link_libraries(diy-sqlite_lib PRIVATE fmt::fmt)
+find_package(tl-expected REQUIRED)
+target_link_libraries(diy-sqlite_lib PRIVATE fmt::fmt tl::expected)
 
 # ---- Declare executable ----
 
@@ -46,7 +47,7 @@ set_property(TARGET diy-sqlite_exe PROPERTY OUTPUT_NAME diy-sqlite)
 target_compile_features(diy-sqlite_exe PRIVATE cxx_std_20)
 
 # TODO Remove fmt::fmt once user input is handled by a library 
-target_link_libraries(diy-sqlite_exe PRIVATE diy-sqlite_lib fmt::fmt)
+target_link_libraries(diy-sqlite_exe PRIVATE diy-sqlite_lib fmt::fmt tl::expected)
 
 # ---- Install rules ----
 
