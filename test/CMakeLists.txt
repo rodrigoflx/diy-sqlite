@@ -23,6 +23,8 @@ target_link_libraries(
     diy-sqlite_test PRIVATE
     diy-sqlite_lib
     Catch2::Catch2WithMain
+    fmt::fmt
+    tl::expected
 )
 target_compile_features(diy-sqlite_test PRIVATE cxx_std_17)
 

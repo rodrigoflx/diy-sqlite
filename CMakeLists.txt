@@ -31,7 +31,7 @@ target_include_directories(
     "\$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>"
 )
 
-target_compile_features(diy-sqlite_lib PUBLIC cxx_std_20)
+target_compile_features(diy-sqlite_lib PUBLIC cxx_std_17)
 
 find_package(fmt REQUIRED)
 find_package(tl-expected REQUIRED)
@@ -44,7 +44,7 @@ add_executable(diy-sqlite::exe ALIAS diy-sqlite_exe)
 
 set_property(TARGET diy-sqlite_exe PROPERTY OUTPUT_NAME diy-sqlite)
 
-target_compile_features(diy-sqlite_exe PRIVATE cxx_std_20)
+target_compile_features(diy-sqlite_exe PRIVATE cxx_std_17)
 
 # TODO Remove fmt::fmt once user input is handled by a library 
 target_link_libraries(diy-sqlite_exe PRIVATE diy-sqlite_lib fmt::fmt tl::expected)
