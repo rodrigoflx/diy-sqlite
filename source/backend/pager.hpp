@@ -1,9 +1,10 @@
+#include <array>
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <memory>
-#include <span>
 #include <string_view>
+#include <vector>
 
 constexpr std::size_t PAGE_SIZE = 4096;
 constexpr std::size_t CACHE_PAGES = 100;
@@ -13,7 +14,7 @@ class Page
 public:
   int page_number;
   bool is_dirty;
-  std::span<std::byte> data;
+  std::vector<std::byte> data;
 };
 
 class Pager
@@ -55,8 +56,7 @@ private:
     bool is_dirty {false};
     bool is_valid {false};
   };
-
-  std::array<CacheEntry, CACHE_PAGES> page_table;
+  std::array<CacheEntry, CACHE_PAGES> m_page_table;
   void evict_page(size_t cache_index);
 };
 

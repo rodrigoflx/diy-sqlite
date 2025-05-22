@@ -50,7 +50,7 @@ std::shared_ptr<Page> Pager::get_page(int page_number)
   }
 
   size_t cache_index = page_number % CACHE_SIZE;
-  auto& entry = page_table[cache_index];
+  auto& entry = m_page_table[cache_index];
 
   /* If page cached in the slot is different, evict*/
   if (entry.is_valid && entry.stored_page_number != page_number) {
@@ -69,16 +69,21 @@ std::shared_ptr<Page> Pager::get_page(int page_number)
     cache_hits++;
   }
 
+  std::vector<std::byte> page_data(PAGE_SIZE);
+  std::memcpy(page_data.data(), cache.get() + cache_index * PAGE_SIZE, PAGE_SIZE);
   return std::make_shared<Page>(Page {
       page_number,
       false,
-      std::span<std::byte>(cache.get() + cache_index * PAGE_SIZE, PAGE_SIZE)});
+      std::move(page_data)});
 }
 
 void Pager::write_page(const Page& page)
 {
   if (!page.is_dirty)
     return;
+
+  // Update cache with new data
+  std::memcpy(cache.get() + page.page_number * PAGE_SIZE, page.data.data(), PAGE_SIZE);
 
   std::size_t offset = page.page_number * PAGE_SIZE;
   file_stream.seekp(offset);
@@ -114,7 +119,7 @@ auto create_pager(const std::filesystem::path& filename)
 
 void Pager::evict_page(size_t cache_index)
 {
-  auto& entry = page_table[cache_index];
+  auto& entry = m_page_table[cache_index];
   if (entry.is_valid && entry.is_dirty) {
     std::size_t offset = entry.stored_page_number * PAGE_SIZE;
     file_stream.seekp(offset);
