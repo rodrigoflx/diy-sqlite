@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch_all.hpp>
 
-#include "frontend/tokenizer/tokenizer.hpp"
+#include "frontend/tokenizer.hpp"
 
 TEST_CASE("Tokenize SQL keywords", "[tokenizer]")
 {
@@ -116,4 +116,14 @@ TEST_CASE("Handle unexpected characters", "[tokenizer]")
 {
   tokenizer tokenizer("SELECT #");
   REQUIRE_THROWS_WITH(tokenizer.tokenize(), "Unexpected character: #");
+}
+
+TEST_CASE("Tokenizer can be reused with reset", "[tokenizer]")
+{
+  tokenizer t("SELECT foo");
+  auto tokens1 = t.tokenize();
+  REQUIRE(tokens1[0].value == "SELECT");
+  t.reset("INSERT bar");
+  auto tokens2 = t.tokenize();
+  REQUIRE(tokens2[0].value == "INSERT");
 }
