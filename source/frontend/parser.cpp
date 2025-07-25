@@ -314,8 +314,9 @@ tl::expected<condition, parse_error> parser::parse_condition()
   }
   auto op = consume(token_type::operator_, "");
   if (op.has_value()) {
-    if (op.value().value != "=" && op.value().value != "!=" && op.value().value != "<"
-        && op.value().value != ">" && op.value().value != "<=" && op.value().value != ">=")
+    if (op.value().value != "=" && op.value().value != "!="
+        && op.value().value != "<" && op.value().value != ">"
+        && op.value().value != "<=" && op.value().value != ">=")
     {
       return tl::make_unexpected(parse_error::invalid_operator);
     }

@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "tl/expected.hpp"  // Provides tl::expected
-
 #include "token.hpp"  // Provides token, token_type, etc.
 #include "tokenizer.hpp"  // Provides your tokenizer class.
 

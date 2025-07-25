@@ -1,3 +1,6 @@
+#ifndef PAGER_HPP
+#define PAGER_HPP
+
 #include <array>
 #include <cstdint>
 #include <filesystem>
@@ -63,3 +66,5 @@ private:
 // Factory function
 auto create_pager(const std::filesystem::path& filename)
     -> std::unique_ptr<Pager>;
+
+#endif  // PAGER_HPP

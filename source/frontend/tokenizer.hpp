@@ -12,13 +12,17 @@ class tokenizer
 public:
   // Construct with input string
   explicit tokenizer(std::string input)
-      : m_input(std::move(input)), m_pos(0) {}
+      : m_input(std::move(input))
+      , m_pos(0)
+  {
+  }
 
   // Tokenize the input string into a vector of tokens
   std::vector<token> tokenize();
 
   // Reset the tokenizer to reuse with a new string
-  void reset(std::string input) {
+  void reset(std::string input)
+  {
     m_input = std::move(input);
     m_pos = 0;
   }

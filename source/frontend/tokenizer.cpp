@@ -34,7 +34,8 @@ token tokenizer::tokenize_identifier_or_keyword()
 {
   size_t start = m_pos;
   while (m_pos < m_input.size()
-         && (std::isalnum(static_cast<unsigned char>(m_input[m_pos])) || m_input[m_pos] == '_'))
+         && (std::isalnum(static_cast<unsigned char>(m_input[m_pos]))
+             || m_input[m_pos] == '_'))
     m_pos++;
   std::string word = m_input.substr(start, m_pos - start);
   token_type type =
@@ -46,7 +47,8 @@ token tokenizer::tokenize_number()
 {
   size_t start = m_pos;
   while (m_pos < m_input.size()
-         && (std::isdigit(static_cast<unsigned char>(m_input[m_pos])) || m_input[m_pos] == '.'))
+         && (std::isdigit(static_cast<unsigned char>(m_input[m_pos]))
+             || m_input[m_pos] == '.'))
     m_pos++;
   return token(token_type::literal, m_input.substr(start, m_pos - start));
 }
